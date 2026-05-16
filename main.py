@@ -21,7 +21,7 @@ import time
 from torch.optim.lr_scheduler import CosineAnnealingLR
 import shutil
 from Graph_C import build_comp_graph, build_edges_vector, syndrome_to_coordinates, build_syndrome_graph_rotated
-from model import EdgeClassifierTransformer2 
+from model import QWP
 from training import train_model, test_model
 from GT_C import build_ground_truth_matching, build_ground_truth_matching_X, GLOBAL_BRUTE_FORCE_COUNTER
 from training import plot_test_acc
@@ -376,7 +376,7 @@ def main(args):
     assert 0 < args.repetitions 
 
 
-    model = EdgeClassifierTransformer2(
+    model = QWP(
         node_feat_dim=5+8, # 8 is for the laplacian pe
         edge_feat_dim=4, 
         hidden_dim=args.d_model,

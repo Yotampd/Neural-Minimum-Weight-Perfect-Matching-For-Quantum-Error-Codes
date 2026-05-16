@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch_geometric.nn import GCNConv, GATv2Conv, TransformerConv, global_mean_pool
 
-class EdgeClassifierTransformer2(nn.Module):
+class QWP(nn.Module):
     def __init__(self, node_feat_dim, edge_feat_dim, hidden_dim, heads=4, num_layers=4, L = 4,dropout=0.1, noise_type = 'depolarization', num_stabs_total = None, code_type = "toric"):
         super().__init__()
 
@@ -11,13 +11,10 @@ class EdgeClassifierTransformer2(nn.Module):
         self.noise_type = noise_type
 
         if code_type == 'rotated' and noise_type == 'depolarization':
-            # Rotated depolarization code: num_stabs (24) + 2 virtual nodes
             embedding_num_nodes = num_stabs_total + 2
         elif code_type == 'rotated' and noise_type == 'independent':
-             # Rotated independent code: num_stabs (12) + 1 virtual node
             embedding_num_nodes = num_stabs_total + 1
         else:
-            # Toric code: use the exact number of stabs (e.g., 32)
             embedding_num_nodes = num_stabs_total
 
         self.num_nodes = num_stabs_total
